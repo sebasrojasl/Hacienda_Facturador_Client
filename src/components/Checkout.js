@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 class Bill extends Component {
-  
+    
   constructor(props){
     super(props);
     this.state = {
@@ -92,7 +92,8 @@ class Bill extends Component {
         quantity: '',
         price: '',
 
-      }
+      },
+      inputValue:''
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -114,7 +115,6 @@ class Bill extends Component {
 
   handleComboBoxChange(event, value) {
     this.setState({[event]:value});
-    console.log(event, value);
   }
 
   handleSubmit(event) {
@@ -123,8 +123,9 @@ class Bill extends Component {
   }
 
   handleNewLine = () => {
-    const {product, products} = this.state;
+    const {product, products, inputValue} = this.state;
     //this.props.onCreate(product);
+    product.unit = inputValue;
     this.setState({
       products:[
         ...products,
@@ -139,9 +140,9 @@ class Bill extends Component {
         unit: '',
         quantity: '',
         price: '',
-      }
+      },
+      inputValue: ''
     })
-
   }
 
   swapFormActive = (param) => () => {
@@ -165,7 +166,7 @@ class Bill extends Component {
   };
   render() {
   const classes = this.props.classes;
-  const {product: {id, description, unit, quantity, price}, steps, products} = this.state;
+  const {product: {id, description, quantity, price}, steps, products, inputValue} = this.state;
   const  act_e= [{label:'CULTIVO Y VENTA DE CEREALES'}, {label:'LEGUMBRES Y GRANOS BÁSICOS NO INCLUIDAS EN CANASTA BÁSICA'}, {label:'ELABORACIÓN DE CHOCOLATE'}, {label:'IMPRESIÓN DIGITAL'}];
   const  sucursales= [{label:'Sucursal 1'}, {label:'Sucursal 2'}, {label:'Sucursal 3'}, {label:'Sucursal 4'}];
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
@@ -288,7 +289,7 @@ class Bill extends Component {
                     </Button>
                   </React.Fragment>
                   )}
-                   {this.state.activePanel === 1 && (
+                  {this.state.activePanel === 1 && (
                       <React.Fragment>
                       <Typography variant="h6" gutterBottom>
                         Datos del emisor
@@ -359,8 +360,8 @@ class Bill extends Component {
                           Siguiente
                         </Button>
                       </React.Fragment>
-                   )}
-                    {this.state.activePanel === 2 && (
+                  )}
+                  {this.state.activePanel === 2 && (
                       <React.Fragment>
                         <Typography variant="h6" gutterBottom>
                           Datos del receptor
@@ -427,8 +428,8 @@ class Bill extends Component {
                           Siguiente
                         </Button>
                       </React.Fragment> 
-                    )}
-                    {this.state.activePanel === 3 && (
+                  )}
+                  {this.state.activePanel === 3 && (
                       <React.Fragment>
                       <Typography variant="h6" gutterBottom>
                         Datos de pago
@@ -543,8 +544,8 @@ class Bill extends Component {
                           Siguiente
                         </Button>
                       </React.Fragment>
-                    )}
-                    {this.state.activePanel === 4 && (
+                  )}
+                  {this.state.activePanel === 4 && (
                      <React.Fragment>
                       <Typography variant="h6" gutterBottom>
                           Ingreso de Productos
@@ -556,6 +557,7 @@ class Bill extends Component {
                           required
                           label="Código"
                           value = {id}
+                          inputProps={{ maxLength: 12 }}
                           onChange = {this.handleNewProduct('id')}
                           style={{ margin: 8 }}
                           margin="normal"
@@ -575,13 +577,13 @@ class Bill extends Component {
                       <Autocomplete
                         required
                         id="idtype_combobox"
-                        value = {unit}
-                        inputValue = {this.state.idtype_combobox_inputValue}
+                        value = {this.state.valueComboBox}
+                        inputValue = {inputValue}
                         onChange={( _, newValue) => {    
-                          this.handleComboBoxChange("document_combobox_Value", newValue);
+                          this.handleComboBoxChange('valueComboBox', newValue)
                         }}
-                        onInputChange={( _, newInputValue) => {    
-                            this.handleComboBoxChange("idtype_combobox_inputValue", newInputValue);
+                        onInputChange={( _, newValue) => {    
+                          this.handleComboBoxChange('inputValue', newValue)
                         }}
                         options={unitOfMeasure}
                         getOptionLabel={(option) => option.label}
@@ -592,6 +594,7 @@ class Bill extends Component {
                         <TextField
                           required
                           label="Cantidad"
+                          
                           value = {quantity}
                           onChange = {this.handleNewProduct('quantity')}
                           style={{ margin: 10 }}
@@ -668,8 +671,8 @@ class Bill extends Component {
                       
                      </Grid>
                      </React.Fragment>
-                    )}
-                    {this.state.activePanel === 5 &&(
+                  )}
+                  {this.state.activePanel === 5 &&(
                       <React.Fragment>
                       <Typography variant="h6" gutterBottom>
                         Documentos de referencia
@@ -694,7 +697,7 @@ class Bill extends Component {
                           Siguiente
                         </Button>
                       </React.Fragment>
-                    )} 
+                  )} 
                 </StepContent>
               </Step>
             ))}
@@ -705,10 +708,30 @@ class Bill extends Component {
                 <Typography variant="h5" gutterBottom>
                   Resumen
                 </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
+                
+                <Button
+                  variant="contained"
+                  color="primary"
+                  
+                  className={classes.button}
+                >
+                  Cargar p12
+                </Button>
+                <TextField
+                  required
+                  label="Pin"
+                  style={{ margin: 8 }}
+                  margin="normal"
+                  fullWidth
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+
+                  className={classes.button}
+                >
+                  Firmar y enviar factura
+                </Button>
 
                 <Button
                   variant="contained"
