@@ -18,6 +18,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import FormData from "form-data"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
 
 class Bill extends Component {
     
+  BackendURL = "https://haciendabackend.herokuapp.com"
+
   constructor(props){
     super(props);
     this.state = {
@@ -118,7 +121,69 @@ class Bill extends Component {
   }
 
   handleSubmit(event) {
-    alert('Factura generada');
+    var body = new FormData();
+    
+    /*Datos emisor*/
+      body.append("emitterName", this.state.name_emisor);
+      body.append("emitterIDType", this.state.idEmisor_combobox_Value);
+      body.append("emitterID", this.state.idnumber);
+      body.append("emitterPhone", this.state.phone_emitter);
+      body.append("emitterAddressDrescription", this.state.address_emitter);
+      body.append("emitterEmail", this.state.email_emisor);
+
+      /* Faltan */
+      body.append("emitterProvince", this.state.emitterProvince);
+      body.append("emitterCanton", this.state.emitterCanton);
+      body.append("emitterDistrict", this.state.emitterDistrict);
+      body.append("emitterNeighborhood", this.state.emitterNeighborhood);
+      body.append("emitterCountryCode", this.state.emitterCountryCode);
+      body.append("emitterBuisnessName", this.state.emitterBuisnessName);
+    //
+
+    /* Datos receptor */
+      body.append("receiverName", this.state.name_receptor);
+      body.append("receiverIDType", this.state.idReceptor_combobox_inputValue);
+      body.append("receiverID", this.state.idnumber_receptor);
+      body.append("receiverEmail", this.state.email_receptor);
+
+      /* Faltan */ 
+      body.append("receiverProvince", this.state.receiverProvince);
+      body.append("receiverCanton", this.state.receiverCanton);
+      body.append("receiverDistrict", this.state.receiverDistrict);
+      body.append("receiverNeighborhood", this.state.receiverNeighborhood);
+      body.append("receiverCountryCode", this.state.receiverCountryCode);
+      body.append("receiverPhone", this.state.receiverPhone);
+    //
+
+    /* Datos para consecutivo */
+      body.append("terminal", this.state.id_caja);
+      body.append("subsidiary", this.state.id_sucursal);
+    //
+
+    /* Datos para factura*/
+      body.append("sellCondition", this.state.id_saleCondition);
+      body.append("creditTerm", this.state.id_credit_time);
+      body.append("payMethod", this.state.payMethod_combobox_inputValue);
+      body.append("currencyCode", this.state.currencyType_combobox_inputValue);
+      body.append("exchangeRate", this.state.currency);
+      body.append("", this.state.);
+      body.append("", this.state.);
+      body.append("", this.state.);
+
+    axios({
+      method: "post",
+      url: this.BackendURL,
+      data: body,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
     event.preventDefault();
   }
 
@@ -335,10 +400,10 @@ class Bill extends Component {
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                          <TextField required name="phone_receptor" label="Teléfono" fullWidth autoComplete="phone" value = {this.state.phone_receptor} onChange = {this.handleChange} />
+                          <TextField required name="phone_emitter" label="Teléfono" fullWidth autoComplete="phone" value = {this.state.phone_emitter} onChange = {this.handleChange} />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                          <TextField required name="address_receptor" label="Dirección" fullWidth autoComplete="address" value = {this.state.address_receptor} onChange = {this.handleChange} />
+                          <TextField required name="address_emitter" label="Dirección" fullWidth autoComplete="address" value = {this.state.address_emitter} onChange = {this.handleChange} />
                         </Grid>
                       </Grid>
                       <Button
