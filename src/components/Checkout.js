@@ -171,9 +171,7 @@ class Bill extends Component {
   const  sucursales= [{label:'Sucursal 1'}, {label:'Sucursal 2'}, {label:'Sucursal 3'}, {label:'Sucursal 4'}];
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
   const  act_emisor= [{label:'Juridica Nacional'}, {label:'Físico Nacional'}, {label:'DIDI'}, {label:'NITE'}, {label:'Pasaporte'}, {label:'DIMEX'}];
-  const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];
-  //const  act_v= [{label:'Código vendedor'}, {label:'Código comprador'}, {label:'Assignado por la industria'}, {label:'Uso interno'} , {label:'Otros'}];
-  const  act_paymentType= [{label:'Contado'}, {label:'Crédito'}, {label:'Consignación'}, {label:'Apartado'},  {label:'Arrendamiento con opción de compra'},  {label:'Arrendamiento en función financiera'},  {label:'Servicios prestados al Estado a crédito'}, {label:'Pago de servicios prestados al Estado'}, {label:'Otro'}];
+  const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];  const  act_paymentType= [{label:'Contado'}, {label:'Crédito'}, {label:'Consignación'}, {label:'Apartado'},  {label:'Arrendamiento con opción de compra'},  {label:'Arrendamiento en función financiera'},  {label:'Servicios prestados al Estado a crédito'}, {label:'Pago de servicios prestados al Estado'}, {label:'Otro'}];
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
   const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}]
@@ -241,7 +239,7 @@ class Bill extends Component {
                         <TextField
                           required
                           value = {this.state.id_sucursal}
-                          onChange = {this.handleChange}
+                          onInput = {this.handleChange}
                           id="id_sucursal"
                           name="id_sucursal"
                           label="Número de sucursal"
@@ -256,7 +254,7 @@ class Bill extends Component {
                           name="id_caja"
                           label="Número de caja"
                           fullWidth
-                          onChange = {this.handleChange}
+                          onInput = {this.handleChange}
 
                         />
                       </Grid>
@@ -318,7 +316,7 @@ class Bill extends Component {
                             value = {this.state.idnumber}
                             name="idnumber"
                             label="Número de identificación"
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             fullWidth
                           />
                         </Grid>
@@ -329,7 +327,7 @@ class Bill extends Component {
                           <TextField
                             required
                             value = {this.state.email_emisor}
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             name="email_emisor"
                             label="Correo electrónico"
                             fullWidth
@@ -388,7 +386,7 @@ class Bill extends Component {
                             <TextField
                               required
                               value = {this.state.idnumber_receptor}
-                              onChange = {this.handleChange}
+                              onInput = {this.handleChange}
                               name="idnumber_receptor"
                               label="Número de identificación"
                               fullWidth
@@ -397,7 +395,7 @@ class Bill extends Component {
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <TextField required name="name_receptor" label="Nombre" fullWidth autoComplete="name" value = {this.state.name_receptor}
-                              onChange = {this.handleChange} />
+                              onInput = {this.handleChange} />
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <TextField
@@ -405,7 +403,7 @@ class Bill extends Component {
                               name="email_receptor"
                               label="Correo electrónico"
                               value = {this.state.email_receptor}
-                              onChange = {this.handleChange} 
+                              onInput = {this.handleChange} 
                               fullWidth
                               autoComplete="correo"
                             />
@@ -472,7 +470,7 @@ class Bill extends Component {
                         <Grid item xs={12} sm={6}>
                           <TextField
                             value = {this.state.id_credit_time}
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             name="id_credit_time"
                             label="Plazo de crédito"
                             fullWidth
@@ -482,7 +480,7 @@ class Bill extends Component {
                           <TextField
                             required
                             value = {this.state.id_exchangeType}
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             name="id_exchangeType"
                             label="Tipo de cambio"
                             fullWidth
@@ -491,7 +489,7 @@ class Bill extends Component {
                         <Grid item xs={12} sm={6}>
                           <TextField
                             value = {this.state.id_saleCondition}
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             name="id_saleCondition"
                             label="Detalle de condición de venta"
                             fullWidth
@@ -501,7 +499,7 @@ class Bill extends Component {
                           <TextField
                             required
                             value = {this.state.id_exchangeTypeDetail}
-                            onChange = {this.handleChange}
+                            onInput = {this.handleChange}
                             name="id_exchangeTypeDetail"
                             label="Detalle de forma de cambio"
                             fullWidth
@@ -558,7 +556,7 @@ class Bill extends Component {
                           label="Código"
                           value = {id}
                           inputProps={{ maxLength: 12 }}
-                          onChange = {this.handleNewProduct('id')}
+                          onInput = {this.handleNewProduct('id')}
                           style={{ margin: 8 }}
                           margin="normal"
                           fullWidth
@@ -568,7 +566,7 @@ class Bill extends Component {
                           required
                           label="Descripción"
                           value = {description}
-                          onChange = {this.handleNewProduct('description')}
+                          onInput = {this.handleNewProduct('description')}
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
@@ -596,7 +594,7 @@ class Bill extends Component {
                           label="Cantidad"
                           
                           value = {quantity}
-                          onChange = {this.handleNewProduct('quantity')}
+                          onInput = {this.handleNewProduct('quantity')}
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
@@ -608,7 +606,7 @@ class Bill extends Component {
                           id="priceProduct"
                           label="Precio Unitario"
                           value = {price}
-                          onChange = {this.handleNewProduct('price')}
+                          onInput = {this.handleNewProduct('price')}
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
@@ -727,7 +725,7 @@ class Bill extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-
+                  onClick={this.handleSubmit}
                   className={classes.button}
                 >
                   Firmar y enviar factura
