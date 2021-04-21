@@ -19,6 +19,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import FormData from "form-data"
+import axios from 'axios';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,13 +133,12 @@ class Bill extends Component {
       body.append("emitterAddressDrescription", this.state.address_emitter);
       body.append("emitterEmail", this.state.email_emisor);
 
-      /* Faltan */
       body.append("emitterProvince", this.state.emitterProvince);
       body.append("emitterCanton", this.state.emitterCanton);
       body.append("emitterDistrict", this.state.emitterDistrict);
       body.append("emitterNeighborhood", this.state.emitterNeighborhood);
       body.append("emitterCountryCode", this.state.emitterCountryCode);
-      body.append("emitterBuisnessName", this.state.emitterBuisnessName);
+      body.append("emitterBuisnessName", this.state.emitterBusinessName);
     //
 
     /* Datos receptor */
@@ -166,9 +167,9 @@ class Bill extends Component {
       body.append("payMethod", this.state.payMethod_combobox_inputValue);
       body.append("currencyCode", this.state.currencyType_combobox_inputValue);
       body.append("exchangeRate", this.state.currency);
-      body.append("", this.state.);
-      body.append("", this.state.);
-      body.append("", this.state.);
+      //body.append("", this.state.);
+      //body.append("", this.state.);
+      //body.append("", this.state.);
 
     axios({
       method: "post",
@@ -397,13 +398,31 @@ class Bill extends Component {
                             label="Correo electrónico"
                             fullWidth
                             autoComplete="email"
-                          />
+                          /> 
                         </Grid>
                         <Grid item xs={12} md={6}>
-                          <TextField required name="phone_emitter" label="Teléfono" fullWidth autoComplete="phone" value = {this.state.phone_emitter} onChange = {this.handleChange} />
+                          <TextField required name="phone_emitter" label="Teléfono" fullWidth autoComplete="phone" value = {this.state.phone_emitter} onInput = {this.handleChange} />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                          <TextField required name="address_emitter" label="Dirección" fullWidth autoComplete="address" value = {this.state.address_emitter} onChange = {this.handleChange} />
+                          <TextField required name="address_emitter" label="Dirección" fullWidth autoComplete="address" value = {this.state.address_emitter} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField required name="emitterProvince" label="Provincia" fullWidth autoComplete="province" value = {this.state.emitterProvince} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField required name="emitterCanton" label="Cantón" fullWidth autoComplete="canton" value = {this.state.emitterCanton} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField required name="emitterDistrict" label="Distrito" fullWidth autoComplete="district" value = {this.state.emitterDistrict} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField name="emitterNeighborhood" label="Barrio" fullWidth autoComplete="neighborhood" value = {this.state.emitterNeighborhood} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField name="emitterCountryCode" label="Código de país" fullWidth autoComplete="code" value = {this.state.emitterCountryCode} onInput = {this.handleChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <TextField name="emitterBusinessName" label="Nombre del negocio" fullWidth autoComplete="bussines_name" value = {this.state.emitterBusinessName} onChange = {this.handleChange} />
                         </Grid>
                       </Grid>
                       <Button
@@ -473,6 +492,24 @@ class Bill extends Component {
                               autoComplete="correo"
                             />
                           </Grid>
+                            <Grid item xs={12} md={6}>
+                            <TextField required name="receiverProvince" label="Provincia" fullWidth autoComplete="province" value = {this.state.receiverProvince} onInput = {this.handleChange} />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                              <TextField required name="receiverCanton" label="Cantón" fullWidth autoComplete="canton" value = {this.state.receiverCanton} onInput = {this.handleChange} />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                              <TextField required name="receiverDistrict" label="Distrito" fullWidth autoComplete="district" value = {this.state.receiverDistrict} onInput = {this.handleChange} />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                              <TextField name="receiverNeighborhood" label="Barrio" fullWidth autoComplete="neighborhood" value = {this.state.receiverNeighborhood} onInput = {this.handleChange} />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                              <TextField name="receiverCountryCode" label="Código de país" fullWidth autoComplete="code" value = {this.state.receiverCountryCode} onInput = {this.handleChange} />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                              <TextField name="receiverPhone" label="Número de teléfono" fullWidth autoComplete="phone" value = {this.state.receiverPhone} onInput = {this.handleChange} />
+                            </Grid>
                         </Grid>
                         <Button
                         variant="contained"
