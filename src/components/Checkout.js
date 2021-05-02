@@ -81,13 +81,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 class Bill extends Component {
-    
+
+  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label:'Servicios prestados al Estado a crédito', value: '07'}, {label:'Pago de servicios prestados al Estado', value: '08'}, {label:'Otro', value: '09'}];
+  
+  
   BackendURL = "https://haciendabackend.herokuapp.com"
 
   constructor(props){
     super(props);
     this.state = {
-      steps: ['Sucursal','Emisor', 'Receptor', 'Datos Encabezado' , 'Datos Detalle Factura', 'Documentos de referencia y otros'],
+      steps: ['Sucursal','Emisor', 'Receptor', 'Datos Encabezado' , 'Datos Detalle Factura'],
       activePanel: 0,
       products : [],
       product: {
@@ -96,17 +99,31 @@ class Bill extends Component {
         unit: '',
         quantity: '',
         price: '',
-
       },
-      inputValue:''
+      inputValue:'',
+      errors: [],
+      error: false,
+      helperText: '' 
+      
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleValidationBranch(){
+    
+  } 
+
   handleChange(event) {
-    this.setState({[event.target.name]:event.target.value});
+    if(event.target.value.length > 5){
+      this.setState({[event.target.name]:event.target.value});
+      //this.setState({helperText:"", error: false});
+    }else{
+      this.setState({[event.target.name]:event.target.value});
+      //this.setState({helperText:"Invalid", error: true});
+    }
+    
   }
 
   handleNewProduct = name => ({target:{value}}) => {
@@ -188,7 +205,7 @@ class Bill extends Component {
     event.preventDefault();
   }
 
-  handleNewLine = () => {
+  handleNewLine = () => { 
     const {product, products, inputValue} = this.state;
     //this.props.onCreate(product);
     product.unit = inputValue;
@@ -230,6 +247,8 @@ class Bill extends Component {
       activePanel: activePanel - 1
     });
   };
+
+
   render() {
   const classes = this.props.classes;
   const {product: {id, description, quantity, price}, steps, products, inputValue} = this.state;
@@ -237,7 +256,14 @@ class Bill extends Component {
   const  sucursales= [{label:'Sucursal 1'}, {label:'Sucursal 2'}, {label:'Sucursal 3'}, {label:'Sucursal 4'}];
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
   const  act_emisor= [{label:'Juridica Nacional'}, {label:'Físico Nacional'}, {label:'DIDI'}, {label:'NITE'}, {label:'Pasaporte'}, {label:'DIMEX'}];
-  const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];  const  act_paymentType= [{label:'Contado'}, {label:'Crédito'}, {label:'Consignación'}, {label:'Apartado'},  {label:'Arrendamiento con opción de compra'},  {label:'Arrendamiento en función financiera'},  {label:'Servicios prestados al Estado a crédito'}, {label:'Pago de servicios prestados al Estado'}, {label:'Otro'}];
+  const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];  
+  const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label:'Servicios prestados al Estado a crédito', value: '07'}, {label:'Pago de servicios prestados al Estado', value: '08'}, {label:'Otro', value: '09'}];
+  const  act_paymentTypeIndex = new Map();
+  
+  for (value in act_paymentType){
+    act_paymentTypeIndex.set(value.label,value.value);
+  }
+
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
   const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}]
@@ -304,8 +330,10 @@ class Bill extends Component {
                       <Grid item xs={12} sm={6}>
                         <TextField
                           required
+                          helperText ={this.state.helperText}
                           value = {this.state.id_sucursal}
                           onInput = {this.handleChange}
+                          error ={this.state.error }  //this.state.id_sucursal.length === 0 ? false : true 
                           id="id_sucursal"
                           name="id_sucursal"
                           label="Número de sucursal"
@@ -314,8 +342,10 @@ class Bill extends Component {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          helperText ={this.state.helperText}
                           required
                           value = {this.state.id_caja}
+                          error = {this.state.error}
                           id="id_caja"
                           name="id_caja"
                           label="Número de caja"
@@ -772,32 +802,6 @@ class Bill extends Component {
                      </Grid>
                      </React.Fragment>
                   )}
-                  {this.state.activePanel === 5 &&(
-                      <React.Fragment>
-                      <Typography variant="h6" gutterBottom>
-                        Documentos de referencia
-                      </Typography>
-                      <Typography variant="h6" gutterBottom>
-                        Otros
-                      </Typography>
-                        <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleBack}
-                        className={classes.button}
-                        >
-                        Atrás
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                        className={classes.button}
-                        >
-                          Siguiente
-                        </Button>
-                      </React.Fragment>
-                  )} 
                 </StepContent>
               </Step>
             ))}
