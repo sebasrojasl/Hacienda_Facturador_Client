@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import homepage from "./components/homepage"
 import factura from "./components/Checkout"
 import BillContext from "./context/bill-context"
+import SignIn from "./components/SignIn"
 
 
 class App extends Component {
@@ -29,7 +30,7 @@ removeProductFromBill = productId => {
       }}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={homepage} exact />
+            <Route path="/" component={SignIn} exact />
             <Route path="/factura" component={factura} exact />
           </Switch>
         </BrowserRouter>

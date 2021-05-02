@@ -82,8 +82,12 @@ const useStyles = makeStyles((theme) => ({
 
 class Bill extends Component {
 
-  act_paymentType= {'Contado':'01', 'Crédito':'02', 'Consignación':'03', 'Apartado':'04', 'Arrendamiento con opción de compra':'05', 'Arrendamiento en función financiera':'06', 'Cobro a favor de un tercero':'07', 'Servicios prestados al Estado a crédito':'08', 'Pago de servicios prestados al Estado':'09', 'Otros':'09'};
+  act_paymentType = {'Contado':'01', 'Crédito':'02', 'Consignación':'03', 'Apartado':'04', 'Arrendamiento con opción de compra':'05', 'Arrendamiento en función financiera':'06', 'Cobro a favor de un tercero':'07', 'Servicios prestados al Estado a crédito':'08', 'Pago de servicios prestados al Estado':'09', 'Otros':'99'};
   
+  paymentMethod = {'Efectivo':'01', 'Tarjeta':'02', 'Transferencia - depósito bancario':'03', 'Recaudado por terceros':'04', 'Otros':'99'};
+
+  currency= {'CRC-Colón Costarricense':'CRC', 'USD-Dolár Americano':'USD'};
+
   BackendURL = "https://haciendabackend.herokuapp.com"
 
   constructor(props){
@@ -178,11 +182,10 @@ class Bill extends Component {
     //
 
     /* Datos para factura*/
-      body.append("sellCondition", );
+      body.append("sellCondition", this.act_paymentType[this.state.paymethodType_combobox_Value]);
       body.append("creditTerm", this.state.id_credit_time);
-      body.append("payMethod", this.state.payMethod_combobox_inputValue);
-      body.append("currencyCode", this.state.currencyType_combobox_inputValue);
-      body.append("exchangeRate", this.state.currency);
+      body.append("payMethod", this.paymentMethod[this.state.payMethod_combobox_inputValue]);
+      body.append("currencyCode", this.currency[this.state.currencyType_combobox_inputValue]);
       //body.append("", this.state.);
       //body.append("", this.state.);
       //body.append("", this.state.);
@@ -256,7 +259,7 @@ class Bill extends Component {
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
   const  act_emisor= [{label:'Juridica Nacional'}, {label:'Físico Nacional'}, {label:'DIDI'}, {label:'NITE'}, {label:'Pasaporte'}, {label:'DIMEX'}];
   const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];  
-  const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label: 'Cobro a favor de un tercero'}, {label:'Servicios prestados al Estado a crédito', value: '08'}, {label:'Pago de servicios prestados al Estado', value: '09'}, {label:'Otros', value: '99'}];
+  const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label: 'Cobro a favor de un tercero', value: '07'}, {label:'Servicios prestados al Estado a crédito', value: '08'}, {label:'Pago de servicios prestados al Estado', value: '09'}, {label:'Otros', value: '99'}];
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
   const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}]
