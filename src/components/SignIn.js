@@ -12,10 +12,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { Component } from 'react';
 import FormData from "form-data"
 import axios from 'axios';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
  
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
-}));
+});
 
 class SignIn extends Component{
 
@@ -43,7 +44,6 @@ class SignIn extends Component{
         super(props);
         this.state = {username:'', password:''};
     }
-
 
     login(){
         var body = new FormData();
@@ -63,9 +63,11 @@ class SignIn extends Component{
               //handle error
               console.log(response);
         });
+        
     }
 
     render(){
+        const {classes} = this.props;
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline />

@@ -1,5 +1,5 @@
 import React ,{ Component } from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,7 +22,7 @@ import FormData from "form-data"
 import axios from 'axios';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
   root: {
     color: '#784af4',
   },
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     },
     
   }
-}));
+});
 
 class Bill extends Component {
 
@@ -852,8 +852,5 @@ class Bill extends Component {
 }
 
 
-export default () => {
 
-  const classes = useStyles();
-  return <Bill classes={classes} />;
-}
+export default withStyles(useStyles)(Bill);
