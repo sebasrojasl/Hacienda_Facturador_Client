@@ -13,11 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { DataGrid } from '@material-ui/data-grid';
 import FormData from "form-data"
 import axios from 'axios';
 
@@ -262,7 +258,9 @@ class Bill extends Component {
   const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label: 'Cobro a favor de un tercero', value: '07'}, {label:'Servicios prestados al Estado a crédito', value: '08'}, {label:'Pago de servicios prestados al Estado', value: '09'}, {label:'Otros', value: '99'}];
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
-  const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}]
+  const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}];
+  const  rowsProduct = ['Código', 'Descripción','Unidad', 'Cantidad' , 'Precio']
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -752,30 +750,7 @@ class Bill extends Component {
                      </Grid>
                      <Grid item xs={6}>
                        <Paper className = {this.paper}>
-                       <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Código</TableCell>
-                              <TableCell>Descripción</TableCell>
-                              <TableCell >Unidad</TableCell>
-                              <TableCell >Cantidad</TableCell>
-                              <TableCell >Precio</TableCell>
-                            </TableRow>
-                          </TableHead>
-                        <TableBody>
-                            {products.map(({id, description, unit, quantity, price}) => (
-                              <TableRow key={id}>
-                                <TableCell component="th" scope="row">
-                                        {id}
-                                </TableCell>
-                                <TableCell >{description}</TableCell>
-                                <TableCell >{unit}</TableCell>
-                                <TableCell >{quantity}</TableCell>
-                                <TableCell >{price}</TableCell>
-                                </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
+                       <DataGrid rows={rowsProduct} columns={this.state.products} pageSize={5} checkboxSelection />
                        </Paper> 
                      </Grid>
                      <Button
