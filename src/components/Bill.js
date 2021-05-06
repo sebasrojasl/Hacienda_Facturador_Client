@@ -256,7 +256,16 @@ class Bill extends Component {
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
   const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}];
-  const  rowsProduct = ['Código', 'Descripción','Unidad', 'Cantidad' , 'Precio']
+  //const  rowsProduct = ['id', 'description','unit', 'quantity' , 'price'];
+
+  const columns = [
+    { field: 'id', headerName: 'id', width: 80 },
+    { field: 'description', headerName: 'description', width: 130 },
+    { field: 'unit', headerName: 'unit', width: 80 },
+    { field: 'quantity', headerName: 'quantity', width: 110 },
+    { field: 'price', headerName: 'price', width: 130 },
+  ];
+
 
   return (
     <React.Fragment>
@@ -672,7 +681,7 @@ class Bill extends Component {
                           Ingreso de Productos
                         </Typography>
                      <Grid container spacing={3}>
-                     <Grid item xs={6} spacing={3}>
+                     <Grid item xs={5} spacing={3}>
                        
                         <TextField
                           required
@@ -683,6 +692,7 @@ class Bill extends Component {
                           style={{ margin: 8 }}
                           margin="normal"
                           fullWidth
+                          style={{ width: 400 }}
 
                         />
                         <TextField
@@ -693,6 +703,7 @@ class Bill extends Component {
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
+                          style={{ width: 400 }}
                       
                         />
                       <Autocomplete
@@ -721,6 +732,7 @@ class Bill extends Component {
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
+                          style={{ width: 400 }}
                       
                         />      
 
@@ -733,7 +745,7 @@ class Bill extends Component {
                           style={{ margin: 10 }}
                           fullWidth
                           margin="normal"
-                      
+                          style={{ width: 400 }}
                         />
 
                       <Button
@@ -745,12 +757,13 @@ class Bill extends Component {
                         Agregar línea
                       </Button> 
                      </Grid>
-                     <Grid item xs={6}>
-                       <Paper className = {this.paper}>
-                       <DataGrid rows={rowsProduct} columns={this.state.products} pageSize={5} checkboxSelection />
-                       </Paper> 
+                     <Grid item xs={7}>
+                      <div style={{ height: 400, width: '100%' }}>
+                      <DataGrid rows={this.state.products} columns={columns} pageSize={5} checkboxSelection />
+                      </div>
                      </Grid>
-                     <Button
+                     <Grid item xs={10}>
+                      <Button
                         variant="contained"
                         color="primary"
                         onClick={this.handleBack}
@@ -766,6 +779,8 @@ class Bill extends Component {
                         >
                           Siguiente
                         </Button>
+                     </Grid>
+                     
                       
                      </Grid>
                      </React.Fragment>

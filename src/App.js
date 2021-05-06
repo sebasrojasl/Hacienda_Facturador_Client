@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "../node_modules/react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import homepage from "./components/homepage"
-import factura from "./components/Checkout"
+import bill from "./components/Bill"
 import BillContext from "./context/bill-context"
 
 
@@ -30,7 +30,7 @@ removeProductFromBill = productId => {
         <BrowserRouter>
           <Switch>
             <Route path="/" component={homepage} exact />
-            <Route path="/factura" component={factura} exact />
+            <Route path="/factura" component={bill} exact />
           </Switch>
         </BrowserRouter>
       </BillContext.Provider>
