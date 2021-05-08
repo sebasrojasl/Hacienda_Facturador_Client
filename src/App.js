@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "../node_modules/react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import homepage from "./components/homepage"
-import factura from "./components/Checkout"
+import homepage from "./components/Home"
+import bill from "./components/Bill"
 import BillContext from "./context/bill-context"
-import SignIn from "./components/SignIn"
-
+import sigIn from "./components/SignIn"
+import sigUp from "./components/SignUp"
 
 class App extends Component {
   state = {
@@ -30,8 +30,10 @@ removeProductFromBill = productId => {
       }}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={SignIn} exact />
-            <Route path="/factura" component={factura} exact />
+            <Route path="/" component={homepage} exact />
+            <Route path="/factura" component={bill} exact />
+            <Route path="/login" component={sigIn} exact />
+            <Route path="/registro" component={sigUp} exact />
           </Switch>
         </BrowserRouter>
       </BillContext.Provider>

@@ -28,7 +28,7 @@ const useStyles = (theme) => ({
     background: 'linear-gradient(45deg, #283593 90%, #1de9b6 30%)',
     border: 0,
     color: 'white',
-    height: 48,
+    height: 70,
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
@@ -69,7 +69,6 @@ const useStyles = (theme) => ({
     transitionDuration: "0.3s",
     '&:hover': {
       background: "#e8eaf6",
-      padding: theme.spacing(0.5,0,0.5),
       transitionDuration: "0.3s",
     },
     
@@ -78,12 +77,8 @@ const useStyles = (theme) => ({
 
 class Bill extends Component {
 
-  act_paymentType = {'Contado':'01', 'Crédito':'02', 'Consignación':'03', 'Apartado':'04', 'Arrendamiento con opción de compra':'05', 'Arrendamiento en función financiera':'06', 'Cobro a favor de un tercero':'07', 'Servicios prestados al Estado a crédito':'08', 'Pago de servicios prestados al Estado':'09', 'Otros':'99'};
+  act_paymentType= {'Contado':'01', 'Crédito':'02', 'Consignación':'03', 'Apartado':'04', 'Arrendamiento con opción de compra':'05', 'Arrendamiento en función financiera':'06', 'Cobro a favor de un tercero':'07', 'Servicios prestados al Estado a crédito':'08', 'Pago de servicios prestados al Estado':'09', 'Otros':'09'};
   
-  paymentMethod = {'Efectivo':'01', 'Tarjeta':'02', 'Transferencia - depósito bancario':'03', 'Recaudado por terceros':'04', 'Otros':'99'};
-
-  currency= {'CRC-Colón Costarricense':'CRC', 'USD-Dolár Americano':'USD'};
-
   BackendURL = "https://haciendabackend.herokuapp.com"
 
   constructor(props){
@@ -178,10 +173,11 @@ class Bill extends Component {
     //
 
     /* Datos para factura*/
-      body.append("sellCondition", this.act_paymentType[this.state.paymethodType_combobox_Value]);
+      body.append("sellCondition", );
       body.append("creditTerm", this.state.id_credit_time);
-      body.append("payMethod", this.paymentMethod[this.state.payMethod_combobox_inputValue]);
-      body.append("currencyCode", this.currency[this.state.currencyType_combobox_inputValue]);
+      body.append("payMethod", this.state.payMethod_combobox_inputValue);
+      body.append("currencyCode", this.state.currencyType_combobox_inputValue);
+      body.append("exchangeRate", this.state.currency);
       //body.append("", this.state.);
       //body.append("", this.state.);
       //body.append("", this.state.);
@@ -249,17 +245,26 @@ class Bill extends Component {
 
   render() {
   const classes = this.props.classes;
-  const {product: {id, description, quantity, price}, steps, products, inputValue} = this.state;
+  const {product: {id, description, quantity, price}, steps, inputValue} = this.state;
   const  act_e= [{label:'CULTIVO Y VENTA DE CEREALES'}, {label:'LEGUMBRES Y GRANOS BÁSICOS NO INCLUIDAS EN CANASTA BÁSICA'}, {label:'ELABORACIÓN DE CHOCOLATE'}, {label:'IMPRESIÓN DIGITAL'}];
   const  sucursales= [{label:'Sucursal 1'}, {label:'Sucursal 2'}, {label:'Sucursal 3'}, {label:'Sucursal 4'}];
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
   const  act_emisor= [{label:'Juridica Nacional'}, {label:'Físico Nacional'}, {label:'DIDI'}, {label:'NITE'}, {label:'Pasaporte'}, {label:'DIMEX'}];
   const  act_rec= [{label:'DIMEX'}, {label:'NITE'}, {label:'DIDI'}, {label:'Físico Nacional'}, {label:'Pasaporte'}, {label:'Juridica Nacional'}];  
-  const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label: 'Cobro a favor de un tercero', value: '07'}, {label:'Servicios prestados al Estado a crédito', value: '08'}, {label:'Pago de servicios prestados al Estado', value: '09'}, {label:'Otros', value: '99'}];
+  const  act_paymentType= [{label:'Contado', value: '01'}, {label:'Crédito', value: '02'}, {label:'Consignación', value: '03'}, {label:'Apartado', value: '04'},  {label:'Arrendamiento con opción de compra', value: '05'},  {label:'Arrendamiento en función financiera', value: '06'},  {label: 'Cobro a favor de un tercero'}, {label:'Servicios prestados al Estado a crédito', value: '08'}, {label:'Pago de servicios prestados al Estado', value: '09'}, {label:'Otros', value: '99'}];
   const  currency= [{label:'CRC-Colón Costarricense'}, {label:'USD-Dolár Americano'}];
   const  paymentMethod= [{label:'Efectivo'}, {label:'Tarjeta'}, {label:'Transferencia - depósito bancario'}, {label:'Recaudado por terceros'}, {label:'Otros'}];
   const  unitOfMeasure = [{label:'unidad'}, {label:'hora'}, {label:'día'}, {label:'minuto'}, {label:'g-gramo'}];
-  const  rowsProduct = ['Código', 'Descripción','Unidad', 'Cantidad' , 'Precio']
+  //const  rowsProduct = ['id', 'description','unit', 'quantity' , 'price'];
+
+  const columns = [
+    { field: 'id', headerName: 'id', width: 80 },
+    { field: 'description', headerName: 'description', width: 130 },
+    { field: 'unit', headerName: 'unit', width: 80 },
+    { field: 'quantity', headerName: 'quantity', width: 110 },
+    { field: 'price', headerName: 'price', width: 130 },
+  ];
+
 
   return (
     <React.Fragment>
@@ -675,7 +680,7 @@ class Bill extends Component {
                           Ingreso de Productos
                         </Typography>
                      <Grid container spacing={3}>
-                     <Grid item xs={6} spacing={3}>
+                     <Grid item xs={5} spacing={3}>
                        
                         <TextField
                           required
@@ -683,20 +688,19 @@ class Bill extends Component {
                           value = {id}
                           inputProps={{ maxLength: 12 }}
                           onInput = {this.handleNewProduct('id')}
-                          style={{ margin: 8 }}
+                          style={{ margin: 8,  width: 400 }}
                           margin="normal"
                           fullWidth
-
                         />
                         <TextField
                           required
                           label="Descripción"
                           value = {description}
                           onInput = {this.handleNewProduct('description')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                      
+                    
                         />
                       <Autocomplete
                         required
@@ -721,10 +725,9 @@ class Bill extends Component {
                           
                           value = {quantity}
                           onInput = {this.handleNewProduct('quantity')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                      
                         />      
 
                         <TextField
@@ -733,10 +736,9 @@ class Bill extends Component {
                           label="Precio Unitario"
                           value = {price}
                           onInput = {this.handleNewProduct('price')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                      
                         />
 
                       <Button
@@ -748,12 +750,13 @@ class Bill extends Component {
                         Agregar línea
                       </Button> 
                      </Grid>
-                     <Grid item xs={6}>
-                       <Paper className = {this.paper}>
-                       <DataGrid rows={rowsProduct} columns={this.state.products} pageSize={5} checkboxSelection />
-                       </Paper> 
+                     <Grid item xs={7}>
+                      <div style={{ height: 400, width: '100%' }}>
+                      <DataGrid rows={this.state.products} columns={columns} pageSize={5} checkboxSelection />
+                      </div>
                      </Grid>
-                     <Button
+                     <Grid item xs={10}>
+                      <Button
                         variant="contained"
                         color="primary"
                         onClick={this.handleBack}
@@ -769,6 +772,8 @@ class Bill extends Component {
                         >
                           Siguiente
                         </Button>
+                     </Grid>
+                     
                       
                      </Grid>
                      </React.Fragment>
