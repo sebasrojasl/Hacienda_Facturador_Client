@@ -28,7 +28,7 @@ const useStyles = (theme) => ({
     background: 'linear-gradient(45deg, #283593 90%, #1de9b6 30%)',
     border: 0,
     color: 'white',
-    height: 48,
+    height: 70,
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
@@ -69,7 +69,6 @@ const useStyles = (theme) => ({
     transitionDuration: "0.3s",
     '&:hover': {
       background: "#e8eaf6",
-      padding: theme.spacing(0.5,0,0.5),
       transitionDuration: "0.3s",
     },
     
@@ -246,7 +245,7 @@ class Bill extends Component {
 
   render() {
   const classes = this.props.classes;
-  const {product: {id, description, quantity, price}, steps, products, inputValue} = this.state;
+  const {product: {id, description, quantity, price}, steps, inputValue} = this.state;
   const  act_e= [{label:'CULTIVO Y VENTA DE CEREALES'}, {label:'LEGUMBRES Y GRANOS BÁSICOS NO INCLUIDAS EN CANASTA BÁSICA'}, {label:'ELABORACIÓN DE CHOCOLATE'}, {label:'IMPRESIÓN DIGITAL'}];
   const  sucursales= [{label:'Sucursal 1'}, {label:'Sucursal 2'}, {label:'Sucursal 3'}, {label:'Sucursal 4'}];
   const  doc_options= [{label:'Factura Electrónica'}, {label:'Nota de débito Electrónica'}, {label:'Nota de crédito Electrónica'}, {label:'Tiquete Electrónico'}, {label:'Factura Electrónica de compra'}, {label:'Factura Electrónica de compra'}];
@@ -689,22 +688,19 @@ class Bill extends Component {
                           value = {id}
                           inputProps={{ maxLength: 12 }}
                           onInput = {this.handleNewProduct('id')}
-                          style={{ margin: 8 }}
+                          style={{ margin: 8,  width: 400 }}
                           margin="normal"
                           fullWidth
-                          style={{ width: 400 }}
-
                         />
                         <TextField
                           required
                           label="Descripción"
                           value = {description}
                           onInput = {this.handleNewProduct('description')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                          style={{ width: 400 }}
-                      
+                    
                         />
                       <Autocomplete
                         required
@@ -729,11 +725,9 @@ class Bill extends Component {
                           
                           value = {quantity}
                           onInput = {this.handleNewProduct('quantity')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                          style={{ width: 400 }}
-                      
                         />      
 
                         <TextField
@@ -742,10 +736,9 @@ class Bill extends Component {
                           label="Precio Unitario"
                           value = {price}
                           onInput = {this.handleNewProduct('price')}
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,  width: 400 }}
                           fullWidth
                           margin="normal"
-                          style={{ width: 400 }}
                         />
 
                       <Button

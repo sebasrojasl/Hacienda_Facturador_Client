@@ -1,139 +1,127 @@
+import withRoot from './modules/withRoot';
+// --- Post bootstrap -----
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { Link } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Component } from 'react';
-import FormData from "form-data"
-import axios from 'axios';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { Field, Form, FormSpy } from 'react-final-form';
+import { makeStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
+import Typography from "@material-ui/core/Typography";
+import AppFooter from './modules/views/AppFooter';
+import AppAppBar from './modules/views/AppAppBar';
+import AppForm from './modules/views/AppForm';
+import { email, required } from './modules/form/validation';
+import RFTextField from './modules/form/RFTextField';
+import FormButton from './modules/form/FormButton';
+import FormFeedback from './modules/form/FormFeedback';
 
- 
-const useStyles = theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-});
+const useStyles = makeStyles((theme) => ({
+  form: {
+    marginTop: theme.spacing(6),
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
+  },
+  feedback: {
+    marginTop: theme.spacing(2),
+  },
+  title: {
+    color: theme.palette.common.black,
+  },
+}));
 
-class SignIn extends Component{
+function SignIn() {
+  const classes = useStyles();
+  const [sent, setSent] = React.useState(false);
 
-    BackendURL = "https://haciendabackend.herokuapp.com"
+  const validate = (values) => {
+    const errors = required(['email', 'password'], values);
 
-    constructor(props){
-        super(props);
-        this.state = {username:'', password:''};
+    if (!errors.email) {
+      const emailError = email(values.email, values);
+      if (emailError) {
+        errors.email = email(values.email, values);
+      }
     }
 
-    login(){
-        var body = new FormData();
-        body.append("username", this.state.username);
-        body.append("pwd", this.state.password);
+    return errors;
+  };
 
-        axios({
-            method: "post",
-            url: this.BackendURL+'/per/login',
-            data: body,
-          })
-            .then(function (response) {
-              //handle success
-              console.log(response);
-            })
-            .catch(function (response) {
-              //handle error
-              console.log(response);
-        });
-        
-    }
+  const handleSubmit = () => {
+    setSent(true);
+  };
 
-    render(){
-        const {classes} = this.props;
-        return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Inicio de sesión
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    value={this.state.username}
-                    label="Nombre de Usuario"
-                    name="username"
-                    autoComplete="username"
-                    autoFocus
-                    />
-                    <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Contraseña"
-                    type="password"
-                    id="password"
-                    value={this.state.password}
-                    autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Recordar contraseña"
-                    />
-                    <Button onclick={this.login()}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    
-                    >
-                    Iniciar sesión
-                    </Button>
-                    <Grid container>
-                    {/* <Grid item xs>
-                        <Link href="#" variant="body2">
-                        ¿Olvidó su contraseña?
-                        </Link>
-                    </Grid> */}
-                    <Grid item>
-                        <Link href="#" variant="body2">
-                        {"¿No se ha registrado? Crear cuenta"}
-                        </Link>
-                    </Grid>
-                    </Grid>
-                </form>
-                </div>
-            </Container>
-        );
-    }
+  return (
+    <React.Fragment>
+      <AppAppBar />
+      <AppForm>
+        <React.Fragment>
+          <Typography variant="h3" gutterBottom marked="center" align="center" className={classes.title}>
+            Sign In
+          </Typography>
+          <Typography variant="body2" align="center" >
+            {'Not a member yet? '}
+            <Link href="/registro" align="center" underline="always">
+              Sign Up here
+            </Link>
+          </Typography>
+        </React.Fragment>
+        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
+          {({ handleSubmit2, submitting }) => (
+            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+              <Field
+                autoComplete="email"
+                autoFocus
+                component={RFTextField}
+                disabled={submitting || sent}
+                fullWidth
+                label="Email"
+                margin="normal"
+                name="email"
+                required
+                size="large"
+              />
+              <Field
+                fullWidth
+                size="large"
+                component={RFTextField}
+                disabled={submitting || sent}
+                required
+                name="password"
+                autoComplete="current-password"
+                label="Password"
+                type="password"
+                margin="normal"
+              />
+              <FormSpy subscription={{ submitError: true }}>
+                {({ submitError }) =>
+                  submitError ? (
+                    <FormFeedback className={classes.feedback} error>
+                      {submitError}
+                    </FormFeedback>
+                  ) : null
+                }
+              </FormSpy>
+              <FormButton
+                className={classes.button}
+                disabled={submitting || sent}
+                size="large"
+                color="secondary"
+                fullWidth
+              >
+                {submitting || sent ? 'In progress…' : 'Sign In'}
+              </FormButton>
+            </form>
+          )}
+        </Form>
+        <Typography align="center">
+          <Link underline="always" href="/premium-themes/onepirate/forgot-password/">
+            Forgot password?
+          </Link>
+        </Typography>
+      </AppForm>
+      <AppFooter />
+    </React.Fragment>
+  );
 }
 
-export default withStyles(useStyles)(SignIn);
+export default withRoot(SignIn);
