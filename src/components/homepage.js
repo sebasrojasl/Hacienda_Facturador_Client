@@ -15,6 +15,10 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
+
+
+
 
 const secondStyles = makeStyles((theme) => ({
   root: {
@@ -73,75 +77,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
-  const classes = useStyles();
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Inicio de sesión
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Correo electrónico"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recordar contraseña"
-          />
-          <Button onclick="SignInSide()"
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            
-          >
-            Iniciar sesión
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                ¿Olvidó su contraseña?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"¿No se ha registrado? Crear cuenta"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
-  );
-}
-
-export function SignInSide() {
+export default function SignInSide() {
   const classes = secondStyles();
 
   return (
@@ -178,6 +115,17 @@ export function SignInSide() {
               className={classes.submit}
             >
               Declaración Jurada
+            </Button>
+            <Button 
+            component={ Link } to="/visualizador"
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              startIcon={<DescriptionIcon />}
+              className={classes.submit}
+            >
+              Visualizador de facturas
             </Button>
           </form>
         </div>
