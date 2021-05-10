@@ -278,17 +278,17 @@ class BillVisualizer extends Component {
       <AppBar position="absolute" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Facturador Hacienda
+            Visualizador de facturas
           </Typography>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-          Emisión de comprobante electrónico
+          Facturas previas
           </Typography>
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+            <div style={{ height: 600, width: '100%' }}>
+                <DataGrid rows={rows} columns={columns} pageSize={20} checkboxSelection />
             </div>         
         </Paper>
       </main>
