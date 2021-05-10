@@ -42,14 +42,13 @@ function SignIn() {
         errors.email = email(values.email, values);
       }
     }
-
     return errors;
   };
 
-  const handleSubmit = () => {
+  const onSubmit = async values => {
     setSent(true);
-  };
-
+    window.alert(JSON.stringify(values, 0, 2));
+  }
   return (
     <React.Fragment>
       <AppAppBar />
@@ -65,9 +64,12 @@ function SignIn() {
             </Link>
           </Typography>
         </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+        <Form onSubmit={onSubmit}
+         validate={validate}
+         subscription={{ submitting: true }}
+         > 
+          {({ handleSubmit, submitting }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
               <Field
                 autoComplete="email"
                 autoFocus
@@ -79,6 +81,7 @@ function SignIn() {
                 name="email"
                 required
                 size="large"
+                type="email"
               />
               <Field
                 fullWidth
@@ -106,6 +109,7 @@ function SignIn() {
                 disabled={submitting || sent}
                 size="large"
                 color="secondary"
+                type="submit"
                 fullWidth
               >
                 {submitting || sent ? 'In progress…' : 'Sign In'}
@@ -113,11 +117,6 @@ function SignIn() {
             </form>
           )}
         </Form>
-        <Typography align="center">
-          <Link underline="always" href="/premium-themes/onepirate/forgot-password/">
-            Forgot password?
-          </Link>
-        </Typography>
       </AppForm>
       <AppFooter />
     </React.Fragment>
