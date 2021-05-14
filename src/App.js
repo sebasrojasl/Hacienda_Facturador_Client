@@ -6,6 +6,7 @@ import AppAppBar from './components/AppAppBar'
 import Homepage from './components/Homepage';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import LandPage from './components/LandPage';
 
 class App extends Component{
 
@@ -18,6 +19,7 @@ class App extends Component{
             <Route path="/" component={Homepage} />
             <Route path="/SignUp" component={SignUp} />
             <Route path="/SignIn" component={SignIn} />
+            <Route path="/LandPage" component={LandPage} />
           </Switch>
         </BrowserRouter>
       </GlobalState>
